@@ -2,7 +2,8 @@ import os
 
 
 def main():
-    input_keyboard()
+    fine_name = input_keyboard()
+    get_text(fine_name)
 
 
 def input_keyboard():
@@ -14,6 +15,14 @@ def input_keyboard():
             print("입력한 파일이 존재하지 않습니다.")
 
     return file_name
+
+
+def get_text(fine_name):
+    txt = open(fine_name, 'r')
+    for i in txt:
+        print(i)
+
+    txt.close()
 
 
 if __name__ == "__main__":

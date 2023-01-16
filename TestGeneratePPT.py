@@ -1,6 +1,6 @@
 import unittest
 
-from generatePPT import input_keyboard
+from generatePPT import input_keyboard, get_text
 
 
 class TestGeneratePPT(unittest.TestCase):
@@ -11,6 +11,12 @@ class TestGeneratePPT(unittest.TestCase):
     """
     def testInputKeyboard(self):
         self.assertIsNotNone(input_keyboard())
+
+    """
+    텍스트파일의 문자열을 읽는다.
+    """
+    def testGetText(self):
+        get_text("./word-sample.txt")
 
 
 if __name__ == '__main__':
