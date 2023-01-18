@@ -1,5 +1,4 @@
 import copy
-import itertools
 import os
 from pptx import Presentation
 
@@ -25,15 +24,16 @@ def input_keyboard():
 
 def generate_ppt(text_file_name):
     template_prs = Presentation(TEMPLATE_PPT)
-    txt = open(text_file_name, 'r')
-    title = txt.readlines()[0].rstrip('\n')
+
     with open(text_file_name, 'r') as f:
         reads = f.read()
-        for entry in reads.split('\n\n'):
+        lyrics = reads.split('\n\n')
+        title = lyrics.pop(0)
+
+        for entry in lyrics:
             duplicate_slide(template_prs, 0, title, entry)
 
     template_prs.save(TARGET_PPT)
-    txt.close()
 
 
 def duplicate_slide(pres, index, title, entry):
@@ -64,15 +64,11 @@ def duplicate_slide(pres, index, title, entry):
                     if shp.name == '제목 1':  # 동적으로 변경
                         run.text = title
                     elif shp.name == '부제목 2':
-                        # print(run)
-                        # print(run.font.bold)
                         # paragraph.font.bold = run.font.bold
                         # paragraph.font.size = run.font.size
-                        # paragraph.font.name = run.font.name
                         # paragraph.text = entry
                         run.text = entry
                         # print(entry)
-                        # print('----')
 
             newel = copy.deepcopy(el)
             dest.shapes._spTree.insert_element_before(newel, 'p:extLst')
