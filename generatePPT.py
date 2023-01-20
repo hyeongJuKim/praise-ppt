@@ -13,11 +13,11 @@ def main():
 
 def input_keyboard():
     while True:
-        file_name = input("입력할 가사 파일명을 입력하세요.\n")
+        file_name = input("가사가 포함된 파일명을 입력하세요.\n")
         if os.path.isfile("./" + file_name):
             break
         else:
-            print("입력한 파일이 존재하지 않습니다.")
+            print("파일이 존재하지 않습니다.")
 
     return file_name
 
