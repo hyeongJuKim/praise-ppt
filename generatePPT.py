@@ -2,7 +2,7 @@ import copy
 import os
 from pptx import Presentation
 
-TEMPLATE_PPT = "template/lyrics-template.pptx"
+TEMPLATE_PPT = "template/lyrics-template2.pptx"
 TARGET_PPT = "result.pptx"
 
 
@@ -43,7 +43,7 @@ def duplicate_slide(pres, index, title, entry):
     except:
         blank_slide_layout = pres.slide_layouts[len(pres.slide_layouts) - 1]
 
-    dest = pres.slides.add_slide(blank_slide_layout)
+    new_slide = pres.slides.add_slide(blank_slide_layout)
     img_dict = {}
 
     for shp in source.shapes:
@@ -55,20 +55,19 @@ def duplicate_slide(pres, index, title, entry):
 
             # add pictures
             for k, v in img_dict.items():
-                dest.shapes.add_picture(k, v[0], v[1], v[2], v[3])
-                os.remove(k)  # 이미지를 한 번 생성하도록 리팩토링
+                new_slide.shapes.add_picture(k, v[0], v[1], v[2], v[3])
+                os.remove(k)
         else:
+            count = 0
             el = shp.element
             for paragraph in shp.text_frame.paragraphs:
                 for run in paragraph.runs:
                     if shp.name == '제목 1':  # 동적으로 변경
                         run.text = title
                     elif shp.name == '부제목 2':
-                        # paragraph.font.bold = run.font.bold
-                        # paragraph.font.size = run.font.size
-                        # paragraph.text = entry
-                        run.text = entry
-                        # print(entry)
+                        count += 1
+                        if count == 1:
+                            run.text = entry
 
             newel = copy.deepcopy(el)
             dest.shapes._spTree.insert_element_before(newel, 'p:extLst')
