@@ -33,6 +33,7 @@ def generate_ppt(text_file_name):
         for entry in lyrics:
             duplicate_slide(template_prs, 0, title, entry)
 
+    delete_slide(template_prs, 0)
     template_prs.save(TARGET_PPT)
 
 
@@ -70,7 +71,13 @@ def duplicate_slide(pres, index, title, entry):
                             run.text = entry
 
             newel = copy.deepcopy(el)
-            dest.shapes._spTree.insert_element_before(newel, 'p:extLst')
+            new_slide.shapes._spTree.insert_element_before(newel, 'p:extLst')
+
+
+def delete_slide(prs, index):
+    xml_slides = prs.slides._sldIdLst
+    slides = list(xml_slides)
+    xml_slides.remove(slides[index])
 
 
 if __name__ == "__main__":
