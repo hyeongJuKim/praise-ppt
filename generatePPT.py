@@ -1,9 +1,11 @@
 import copy
 import os
+from datetime import datetime
+
 from pptx import Presentation
 
-TEMPLATE_PPT = "template/lyrics-template2.pptx"
-TARGET_PPT = "result.pptx"
+TEMPLATE_PPT = "양식2.pptx"
+TARGET_PPT = "청년부-가사-" + datetime.today().strftime('%Y%m%d-%H%M%S') + ".pptx"
 
 
 def main():
@@ -63,7 +65,7 @@ def duplicate_slide(pres, index, title, entry):
             el = shp.element
             for paragraph in shp.text_frame.paragraphs:
                 for run in paragraph.runs:
-                    if shp.name == '제목 1':  # 동적으로 변경
+                    if run.text == '제목':
                         run.text = title
                     elif shp.name == '부제목 2':
                         count += 1
