@@ -61,18 +61,15 @@ def duplicate_slide(pres, index, title, entry):
                 new_slide.shapes.add_picture(k, v[0], v[1], v[2], v[3])
                 os.remove(k)
         else:
-            count = 0
-            el = shp.element
-            for paragraph in shp.text_frame.paragraphs:
+            copy_shp = copy.deepcopy(shp)
+            for paragraph in copy_shp.text_frame.paragraphs:
                 for run in paragraph.runs:
                     if run.text == '제목':
                         run.text = title
-                    elif shp.name == '부제목 2':
-                        count += 1
-                        if count == 1:
-                            run.text = entry
+                    elif run.text == '가사':
+                        run.text = entry
 
-            newel = copy.deepcopy(el)
+            newel = copy.deepcopy(copy_shp.element)
             new_slide.shapes._spTree.insert_element_before(newel, 'p:extLst')
 
 
