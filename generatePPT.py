@@ -1,33 +1,40 @@
+import configparser
 import copy
 import os
 from datetime import datetime
-
 from pptx import Presentation
 
-TEMPLATE_PPT = "양식2.pptx"
-TARGET_PPT = "청년부-가사-" + datetime.today().strftime('%Y%m%d-%H%M%S') + ".pptx"
+config = configparser.ConfigParser()
+config.read('config.ini')
+templateDir = config['default']['templateDir']
+outputDir = config['default']['outputDir']
 
 
 def main():
-    text_file_name = input_keyboard()
-    generate_ppt(TEMPLATE_PPT, text_file_name)
+    file_list = os.listdir(templateDir)
+    for file in file_list:
+        if file.endswith('.txt'):
+            generate_ppt(file)
 
 
-def input_keyboard():
-    while True:
-        file_name = input("가사가 포함된 파일명을 입력하세요.\n")
-        if os.path.isfile("./" + file_name):
-            break
-        else:
-            print("파일이 존재하지 않습니다.")
-
-    return file_name
+def generate_template_ppt_name():
+    file_list = os.listdir(templateDir)
+    for file in file_list:
+        if file.endswith('.pptx') or file.endswith('.ppt'):
+            return templateDir + '/' + file
 
 
-def generate_ppt(text_file_name):
-    template_prs = Presentation(TEMPLATE_PPT)
+def generate_output_file_name(file):
+    file_name = file.strip('.txt')
+    date_time = datetime.today().strftime('%Y%m%d-%H%M%S')
+    return '{}/{}-{}.pptx'.format(outputDir, file_name, date_time)
 
-    with open(text_file_name, 'r') as f:
+
+def generate_ppt(file):
+    template_ppt_name = generate_template_ppt_name()
+    template_prs = Presentation(template_ppt_name)
+
+    with open(templateDir + '/' + file, 'r') as f:
         reads = f.read()
         lyrics = reads.split('\n\n')
         title = lyrics.pop(0)
@@ -36,7 +43,7 @@ def generate_ppt(text_file_name):
             duplicate_slide(template_prs, 0, title, entry)
 
     delete_slide(template_prs, 0)
-    template_prs.save(TARGET_PPT)
+    template_prs.save(generate_output_file_name(file))
 
 
 def duplicate_slide(pres, index, title, entry):

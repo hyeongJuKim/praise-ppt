@@ -16,7 +16,7 @@ class TestGeneratePPT(unittest.TestCase):
     텍스트파일의 문자열을 읽는다.
     """
     def testGetText(self):
-        generate_ppt("가사샘플1.txt")
+        generate_ppt("가사샘플-119.txt")
         self.assertEqual(1, 1)
 
 
