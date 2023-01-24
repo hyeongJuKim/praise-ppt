@@ -6,15 +6,29 @@ from pptx import Presentation
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-templateDir = config['default']['templateDir']
-outputDir = config['default']['outputDir']
+templateDir = config['default']['templatePptDir']
+outputDir = config['default']['resultPptDir']
 
 
 def main():
+    if not os.path.exists(templateDir):
+        os.makedirs(templateDir)
+
+    if not os.path.exists(outputDir):
+        os.makedirs(outputDir)
+
     file_list = os.listdir(templateDir)
-    for file in file_list:
-        if file.endswith('.txt'):
-            generate_ppt(file)
+
+    pptx_file = [file for file in file_list if file.endswith(".pptx")]
+    if not pptx_file:
+        raise OSError("해당 경로에 pptx 파일이 존재하지 않습니다.")
+
+    txt_file = [file for file in file_list if file.endswith(".txt")]
+    if not txt_file:
+        raise OSError("해당 경로에 txt 파일이 존재하지 않습니다.")
+
+    for file in txt_file:
+        generate_ppt(file)
 
 
 def generate_template_ppt_name():

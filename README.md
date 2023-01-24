@@ -21,7 +21,7 @@ config.ini 파일에 설정을 한다.
   - [x] 가사를 입력한다.
 - [x] template 디렉토리의 모든 txt 파일을 읽어서 out 디렉토리에 가사를 생성한다.
   - [x] 파일의 이름은 `txt 파일명-날짜-시간` 으로 생성한다.
-  - [ ] config.ini 파일의 값들 유효성 검사 및 exception 처리
+  - [x] config.ini 파일의 값 유효성 검사 및 exception 처리
 
 ### 문제
 - [ ] 크롭된 상태의 이미지를 복사하기
