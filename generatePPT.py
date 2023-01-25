@@ -3,6 +3,7 @@ import copy
 import os
 from datetime import datetime
 from pptx import Presentation
+from pptx.util import Inches
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -75,11 +76,16 @@ def duplicate_slide(pres, index, title, entry):
             # copy pictures
             with open(shp.name + '.jpg', 'wb') as f:
                 f.write(shp.image.blob)
+
             img_dict[shp.name + '.jpg'] = [shp.left, shp.top, shp.width, shp.height]
 
             # add pictures
             for k, v in img_dict.items():
-                new_slide.shapes.add_picture(k, v[0], v[1], v[2], v[3])
+                pic = new_slide.shapes.add_picture(k, v[0], v[1], v[2], v[3])
+                pic.crop_right = shp.crop_right
+                pic.crop_left = shp.crop_left
+                pic.crop_top = shp.crop_top
+                pic.crop_bottom = shp.crop_bottom
                 os.remove(k)
         else:
             copy_shp = copy.deepcopy(shp)
