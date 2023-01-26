@@ -3,7 +3,6 @@ import copy
 import os
 from datetime import datetime
 from pptx import Presentation
-from pptx.util import Inches
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -22,11 +21,17 @@ def main():
 
     pptx_file = [file for file in file_list if file.endswith(".pptx")]
     if not pptx_file:
-        raise OSError("해당 경로에 pptx 파일이 존재하지 않습니다.")
+        err_msg = "해당 경로에 pptx 파일이 존재하지 않습니다. {}".format(os.path.abspath(templateDir))
+        raise FileNotFoundError(err_msg)
+
+    if len(pptx_file) != 1:
+        err_msg = "{} \n {} {}".format("pptx 파일은 한개만 존재해야 합니다.", os.path.abspath(templateDir), pptx_file)
+        raise OSError(err_msg)
 
     txt_file = [file for file in file_list if file.endswith(".txt")]
     if not txt_file:
-        raise OSError("해당 경로에 txt 파일이 존재하지 않습니다.")
+        err_msg = "{} {}".format("해당 경로에 txt 파일이 존재하지 않습니다.", os.path.abspath(templateDir))
+        raise FileNotFoundError(err_msg)
 
     for file in txt_file:
         generate_ppt(file)
