@@ -57,19 +57,25 @@ def generate_output_file_name(file):
 
 
 def generate_ppt(file):
-    template_ppt_name = generate_template_ppt_name()
-    template_prs = Presentation(template_ppt_name)
+    try:
+        template_ppt_name = generate_template_ppt_name()
+        template_prs = Presentation(template_ppt_name)
 
-    with open(templateDir + '/' + file, 'r') as f:
-        reads = f.read()
-        lyrics = reads.split('\n\n')
-        title = lyrics.pop(0)
+        print("PPT 양식 파일 :", template_ppt_name)
 
-        for entry in lyrics:
-            duplicate_slide(template_prs, 0, title, entry)
+        with open(templateDir + '/' + file, 'r') as f:
+            reads = f.read()
+            lyrics = reads.split('\n\n')  # TODO: 한 페이지를 구분하는 기준 -> config로 추출하기
+            title = lyrics.pop(0)
 
-    delete_slide(template_prs, 0)
-    template_prs.save(generate_output_file_name(file))
+            for entry in lyrics:
+                duplicate_slide(template_prs, 0, title, entry)
+
+        delete_slide(template_prs, 0)
+        template_prs.save(generate_output_file_name(file))
+        print("파일 생성 완료 :", generate_output_file_name(file))
+    except Exception as e:
+        print("파일 생성 실패. ", e)
 
 
 def duplicate_slide(pres, index, title, entry):
