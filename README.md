@@ -2,12 +2,15 @@
 PPT 슬라이드에 텍스트를 반복해서 입력하여 PPT를 생성한다.
 
 ## 사용 가이드
-config.ini 파일에 설정을 한다.
+- 생성할 PPT 양식 파일
+- 가사 .txt 파일
+
+config.ini 파일에서 필요한 설정을 한다.
+templatePptDir : PPT 파일 양식 파일이 존재하는 디렉토리명을 입력한다. (실행 파일 기준) 
+resultPptDir : 가사 PPT 파일이 생성될 디렉토리명을 입력한다. (실행 파일 기준)
 
 ### 필요 한 것
 - PPT slide template 파일
-  - templatePptDir 실행 파일 기준에 PPT 양식 파일 디렉토리명을 입력한다.
-  - resultPptDir 실행 파일 기준에 생성될 PPT 디렉토리리명을 입력한다.
 - 입력할 텍스트 파일
 
 ### 기능 요구사항
@@ -23,12 +26,8 @@ config.ini 파일에 설정을 한다.
 - [x] template 디렉토리의 모든 txt 파일을 읽어서 out 디렉토리에 가사를 생성한다.
   - [x] 파일의 이름은 `txt 파일명-날짜-시간` 으로 생성한다.
   - [x] config.ini 파일의 값 유효성 검사 및 exception 처리
-- [ ] exe,dmg 파일로 생성
+- [ ] exe,dmg 파일로 생성한다
 
-### 문제
-- [x] 크롭된 상태의 이미지 복사
-- [x] 줄바꿈 적용시 자동 단락이 추가됨
-  
 ---
 
 파이썬 피피티 샘플
