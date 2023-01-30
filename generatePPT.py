@@ -1,16 +1,20 @@
 import configparser
 import copy
 import os
+import sys
 from datetime import datetime
 from pptx import Presentation
 
+
+base_path = (os.path.sep.join(sys.argv[0].split(os.path.sep)[:-1]))
 config = configparser.ConfigParser()
-config.read('config.ini')
-templateDir = config['default']['templatePptDir']
-outputDir = config['default']['resultPptDir']
+config.read(os.path.join(base_path, 'config.ini'), encoding='utf-8')
+templateDir = os.path.join(base_path, config['default']['templatePptDir'])
+outputDir = os.path.join(base_path, config['default']['resultPptDir'])
 
 
 def main():
+
     if not os.path.exists(templateDir):
         os.makedirs(templateDir)
 
