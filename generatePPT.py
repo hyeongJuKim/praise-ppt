@@ -67,7 +67,7 @@ def generate_ppt(file):
 
         print("PPT 양식 파일 :", template_ppt_name)
 
-        with open(templateDir + '/' + file, 'r') as f:
+        with open(templateDir + '/' + file, 'r', encoding='utf-8') as f:
             reads = f.read()
             lyrics = reads.split('\n\n')  # TODO: 한 페이지를 구분하는 기준 -> config로 추출하기
             title = lyrics.pop(0)
